@@ -194,6 +194,8 @@ inon_palette <- c("Wilderness-like (>5 km)" = "#08519c", # Dark blue
     theme_bw(base_size = 10) +
     theme(panel.grid.major = element_line(colour = "grey85", linewidth = 0.2),
           panel.border = element_rect(colour = "black", linewidth = 0.4),
+          panel.spacing.x = unit(1, "cm"),
+          plot.margin = margin(t = 3, r = 10, b = 3, l = 10, unit = "mm"),
           axis.text = element_text(colour = "black", size = 14),
           strip.background = element_blank(),
           strip.text = element_text(face = "bold", size = 14, hjust = 0),
@@ -211,7 +213,7 @@ inon_palette <- c("Wilderness-like (>5 km)" = "#08519c", # Dark blue
 
 # Save as .png
 ggsave(filename = here("figures", "ThesisMethodsFigure_INON_1988_2023_Norway.png"),
-       plot = inon_map, width = 360, height = 260, units = "mm", dpi = 600)
+       plot = inon_map, width = 400, height = 300, units = "mm", dpi = 600)
 
 # Save as .pdf
 ggsave(filename = here("figures", "ThesisMethodsFigure_INON_1988_2023_Norway.pdf"),
