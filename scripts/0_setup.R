@@ -1,5 +1,6 @@
 ##----------------------------------------------------------------------------##
 # THESIS FIGURES
+# 0_setup.R
 # This scripts sets up the project that creates the figures used in the thesis
 ##----------------------------------------------------------------------------##
 
