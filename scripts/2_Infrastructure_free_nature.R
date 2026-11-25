@@ -139,10 +139,22 @@ annotation_panel <- data.frame(panel = factor(panel_labels["1988"],
 # Convert the Norway boundary into the map CRS
 norway_utm <- st_transform(norway_sf, project_crs)
 
+# Angle of true north at the north arrow (top-left corner of the map).
+# Calculated here because which_north = "true" fails when the arrow is
+# limited to one facet panel
+map_bbox <- st_bbox(norway_utm)
+arrow_point <- st_sfc(st_point(c(map_bbox[["xmin"]], map_bbox[["ymax"]])),
+                      crs = project_crs)
+arrow_lonlat <- st_coordinates(st_transform(arrow_point, 4326))
+north_point <- st_sfc(st_point(c(arrow_lonlat[1], arrow_lonlat[2] + 0.1)),
+                      crs = 4326) |>
+  st_transform(project_crs)
+north_shift <- st_coordinates(north_point) - st_coordinates(arrow_point)
+north_rotation <- -atan2(north_shift[1], north_shift[2]) * 180 / pi
+
 ## 1.6. Plot map ---------------------------------------------------------------
 
-# Define colour palette (colour blind-friendly: checked with deuteranopia,
-# protanopia and tritanopia simulation)
+# Define colour-blind friendly pallete
 inon_palette <- c("Wilderness-like (>5 km)" = "#08519c", # Dark blue
                   "Zone 1 (3-5 km)"         = "#4292c6", # Mid blue
                   "Zone 2 (1-3 km)"         = "#9ecae1", # Light blue
@@ -170,7 +182,7 @@ inon_palette <- c("Wilderness-like (>5 km)" = "#08519c", # Dark blue
     scale_x_continuous(breaks = seq(5, 30, by = 5)) +
     scale_y_continuous(breaks = seq(58, 71, by = 2)) +
     annotation_north_arrow(data = annotation_panel,
-                           location = "tl", which_north = "true",
+                           location = "tl", rotation = north_rotation,
                            height = unit(1.2, "cm"), width = unit(1.2, "cm"),
                            pad_x = unit(0.4, "cm"), pad_y = unit(0.4, "cm"),
                            style = north_arrow_fancy_orienteering()) +
