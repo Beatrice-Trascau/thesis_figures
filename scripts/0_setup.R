@@ -17,7 +17,7 @@ install_load_package <- function(x) {
 
 # Define list of packages
 package_vec <- c("here", "sf", "dplyr", "ggplot2", "rnaturalearth", "plotbiomes",
-                 "ggspatial", "giscoR")
+                 "ggspatial", "giscoR", "stringr")
 
 # Execute the function
 sapply(package_vec, install_load_package)
